@@ -1,5 +1,7 @@
 'use client';
 import { OrderForm } from '@/components/OrderForm';
+import { OrderTable } from '@/components/OrderTable';
+import { Sidebar } from '@/components/Sidebar';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -18,10 +20,14 @@ export default function CustomerDashboard() {
   if (!user) return null;
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Customer Dashboard</h1>
-      <div className="max-w-md">
-        <OrderForm onSuccess={() => {}} />
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <Sidebar role="customer" />
+
+      {/* Main Content */}
+      <div className="flex-1 p-6 ml-0 ">
+        <h1 className="text-2xl font-bold mb-4">Customer Dashboard</h1>
+        <OrderTable userId={user._id} role="customer" />
       </div>
     </div>
   );
