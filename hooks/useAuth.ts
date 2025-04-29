@@ -17,6 +17,7 @@ export const useAuth = () => {
   const fetchUser = async () => {
     try {
       const { data } = await getMe();
+      console.log('User data:', data);
       setUser(data);
     } catch (error) {
       setUser(null);
@@ -34,7 +35,9 @@ export const useAuth = () => {
       const { data } = await login({ email, password });
       localStorage.setItem('token', data.token);
       await fetchUser();
-      router.push(user?.role === 'customer' ? '/customer/dashboard' : '/delivery/dashboard');
+      console.log('User:', user);
+      router.push(user?.role === "customer" ? '/customer/dashboard' : '/delivery/dashboard');
+      router.refresh()
     } catch (error) {
       throw new Error('Invalid credentials');
     }
