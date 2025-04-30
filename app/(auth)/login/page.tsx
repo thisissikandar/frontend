@@ -8,6 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 
 const formSchema = z.object({
@@ -18,7 +19,8 @@ const formSchema = z.object({
 export default function LoginPage() {
   const { handleLogin } = useAuth();
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
+  const {  user } = useAuth();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: { email: '', password: '' },
@@ -35,6 +37,11 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
+
+  if (user) {
+    router.push(user.role === 'customer' ? '/customer/dashboard' : '/delivery/dashboard');
+    return null;
+  }
 
   return (
     <div className="max-w-md mx-auto mt-8">
